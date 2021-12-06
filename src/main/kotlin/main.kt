@@ -1,5 +1,5 @@
-import days.day5
+import days.day6
 
 fun main() {
-    day5()
+    println(day6())
 }
