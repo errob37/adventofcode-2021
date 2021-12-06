@@ -1,3 +1,5 @@
+package model
+
 class BingoCard(
     private var all: MutableSet<Int> = mutableSetOf(),
     private var bingoCandidates: MutableList<List<Int>> = mutableListOf()
