@@ -1,5 +1,319 @@
 package days
 
+val day9_test = """
+    2199943210
+    3987894921
+    9856789892
+    8767896789
+    9899965678
+""".trimIndent()
+
+val day9_input = """
+    9756789545987652345891012367899989991359999866435974321921234989994346679898799998765498765435697654
+    6545898959876541236789245458989878989498987654323965639892949878989134569656678997654349979856789543
+    5434567899765430445678997969876569878987699543219896798789894365678945698744567998765134598767899432
+    6545678932984321267789789891997678967896598759909789987676789234789659987632456789654356789878978921
+    7657789793965432457894698790198989456789479898898667896555678945678978997543867898785467893989567892
+    9869895679876566568923987689249992365892357987676557899434567896989989987656789939996579932193456943
+    4989954234989878679019876578998991234595456796543434678923678999898799998789899123987989521012397894
+    3496543129998988789329876439977789345789597987632129789212349998789698989897978994598995432426789965
+    2129692098987599998998765329865678968997678998549098994323567987678987678976665989689876543534999876
+    3098989987595434567899876434974567899398789987698987896434989896557996567895434878999987854545678998
+    5987678976434323568967986549865678943239892098987676987976898765346799678994323469439998966656799109
+    9876567897321012678957797656976899655399989999876545898987979943235678989986554568998999987767988912
+    9965478989432324589345698898989938966989978899989656789399865432133788993297676689987894398979877894
+    9854365679645465678956789999990127899879867789199987891245998943012456789198787998656789239998656789
+    8743234568956977899767998788954356998765945691019998943356987875123869891019899876545678945987545689
+    7654565699967989998978987687895968998954323989198789659767996543234789999999939867634569999876434799
+    8765776789878998767999096556999899987643219878987698798999898865345679987889129954323456789987545989
+    9878987895989987656789195348986789398764329767976549987876799876456789996678998765434667896987659978
+    4989298934599999732678989199875995499875498656896539876545689998767999954567899878545789945699798767
+    3494349210298797653567967988954896989976987645689321987436578999898999893456899989876893434923989856
+    4599959921298598787679459976543789978999876434589210976523459899999976742347978992987942129899876432
+    5987897893987329898796567987665679567999654323568929897735598789998765431234567893999891098789765421
+    9996456789876534999897698998987789459898721012478998789896698678999976210123456999898789997659875432
+    8965347899989676799998999239898891298765432153459987678987966539987894323234567896789679898545987644
+    7996756789499897989989987546789920989878543264567896569999854324456789534345678965394598765434698756
+    6789767892349989878975599767896439876989765345688923478999784213345678946456799876213459876723459887
+    5678978921298976567894409898989598765699987656789212599987652101234789987567899764302398785412345998
+    4449899910987665456793219979878997954569998987897423689998543212345896599878999543213987654324456789
+    3239789899876534367894998764769886743467899498986564799987656423456789445989398765454999785457567899
+    4598566798954321256789869843459765432356974329299875678998767634567995234799209876579879876569678998
+    5986454677894310345898954994569874321678965410123986789469878747679654345678999997679865987689789877
+    6797323476989321238997899989689987434589654321244597893342989656789765467889989998989996898999898756
+    8983212345678932346986997879999876565698765434456798932101298977899876988999878999993987919999959843
+    9975903559789994569975986567896987677899876545587899653214397989989989899019767898912398909898943232
+    4599899678999989798754578456955698988923997658698998794329976595678998789129654567893459998767892101
+    5987788989999878998543462349543459899019898779789989989498765434569987679398743979999767897655589312
+    9876567899898767987662101268942398789298629989899877568998755323498656568999999890198978998543478923
+    9895456798786545698778232358931987699497545699999865456977644212987545457889878789987899987632767894
+    8754234596565434797654345667899876568987676789988784345965432109876532345678965678976789876521256789
+    9764345789432123459765456779999875457898789999879651299879645213989921237899234569895789765430138894
+    9865756896543016569876767893498766346789894345965432989998759324599820126921012379784698654321239995
+    2976787998652127678988878932398754237899953239876544979329878435798762245933126498653789785434346789
+    1297898999763346789399989901249832126989762123987959868910987656789954349894598989762239896565656994
+    0129969899874557895212999899498744335678921014599898957891298767998766498789679876510147997677878923
+    1998654698986667894329896788987656567899432345698767545792999878989878987698989989324235698988989212
+    9887643567898989965598765677598767779988943456796653438689879989678989876567891098945356789799999909
+    8798432345999298978987654356459878989767894677985432123578968994568998797456992987897459895678999898
+    9654321456890197899097563234346989995456795989877321017679356795679999656356789876789567954567898767
+    8765430127789986792198432101245699876345899898765432128793245789989987943237998765698978993498987545
+    9876541235699975679239983432367898765456987659876543234892125989999986542126789654567899689999896536
+    2987678346988854568949876543478949876597998767987654356943014579989876531045897543456912567898789747
+    1298898769876743457899987654579134987678939898998765467897123468967987432236986421257893478967678958
+    0199959899765322346789799867898995999789023999999887678995434679656798543987895432348994589656569899
+    9986545998754301258897658978956789879895235699988998789987556989769899864598976553656789696545456789
+    8765434459643213478976546989345678967994345789767899896898678999898989765899987698767898789434345898
+    9876321398954344569987697991236789456987656799856789954779789768997679876789298789878999899321234987
+    2995456987896476778998989754347894312398768987545878923569896659876545997894349996989999998939359876
+    1987569876789569899249878965456965323469879876534569012345964345987432198989498765699989987898967965
+    0198678975679978954399867896567899434599989987545679923469876239764321019678987654569979546757799654
+    3239989764567899967976556899778978949978993098656897896598754349989433124599998765798767632345678943
+    4599899865698999879865445798989767898767892129789976789679875698998765355678999879987654341296799432
+    5988767978969789998765334567893458989656789399899765678989996987659889467789899998998793210989989949
+    9876543989656678987654125678942349876545679989998976789699999876546996578996799987999989349878567898
+    6565432391234569998543276889543456985431098876767897899598799988632987689545678956899878998767479967
+    5432101239345899998667989997675669876545987854356789968987689999991998795435789445698767999843234556
+    8556214398996799898778999998787899987659876543248895459876578999889899899556895334989656789654012345
+    7679345987889988759989978899898999999878997652101979398765456798766789998787954129876545699964144569
+    8798956986679876543598767698999998889989019654214568998654334989655679219899543012965434759893234578
+    9987899765498765432489656597899987679993198784323679876543129876544598923965432129877521238789345679
+    9765978964349876421278945456799876568943239875634789988651012987623467899987653235999430145678968789
+    8964568991256995432359932345679987459855945987845899997762129875434568978998864356986543236899879897
+    7843456989346986548767891234878996598769896898956999876543434986645779767879985467897856545999989986
+    6532345678967987669878910123567897679898789999767899997655645698756898658769876778998987656789997675
+    4321234789879299879989892344579999999987689989998999898966758789867987845459989899899199787899896543
+    3210345897989129997998789456689988878996569879329998789897969895978976432348994966799019899978795432
+    4321296896591097856897678967789876569895454768910987656799892924989986521467893245678929956965679321
+    6542389989432976545734577899893985498764343456891298545698791012597895430349964346799998767894578910
+    9543578978949865434823456789932987679863212347892999935797689133456789421258975959899989878943467891
+    8754699567899876321012567893201298789756101356789899896986578994567899532367976778987975999892348989
+    8767976456912986542153457954314349897543212467896798789876459789688998943489997889676899976790199878
+    9898995345893498543464768965326456999656353478945987678954345678999987894598789996545998765891989767
+    3919894236789987655575889876539567898767764589439876569895234589998776789679565899876989876799875656
+    2109789129894298967989999989798978999978879789520995436789125678999654568989434789987976987987684545
+    3998679298932129878996899998987899999989989997621986545678976789898768679997645678998965799896543334
+    9877568997893245989345678997676798989993498765439997876789499895699879789898796789769876898789932123
+    9965479876789346790123789976585987678891989976998998987896321934987989896789989999953987987667899014
+    7654398765695456989545699985434976567789878989897849798965490129996793935679879899892098998545678923
+    8743219754989579879956789496929895434678966799765434659896989298765432123569767676789159995534567895
+    9854598853878998767897992349899789323789655679876210346789979349896541012998756545679234974323567896
+    8765997542367889658989321098785678934578934567985421235899767956989432129876543236799399863212455689
+    9879876521345678947678932297654569965989312399876534569967656797977993234997432145678987654201234678
+    5989854310456899434567894598765789876792105789997945678954546989865789945696549236799398765629346889
+    4198764321697974325778998679986993989893234578999896989543535976984567896989798947893219876548956789
+    3019878932789765534568998799987894599954345699998789895432123495432378999878987899942101987656787895
+    2123989549898987689679439989998965698765456789987678789594345989543489998769556678943219899987998964
+    4257898678977698789989549878999878899876977899996545678975459878954599987654434569654598769999459995
+    4345998789764569897999699767899989967987988949876434989986969767895678998763123678967987658954356789
+    5656799893212698975778987656787896459898999235986545795499899656987789349874564989989996547893235889
+    6767899965435987654569876544656789598769210124598678894298798746899893298765678991095987656792023979
+    9898999876786986543210987632347899987654321235698789965987653234901910129886799543234599767893434568
+""".trimIndent()
+
+val day8_test = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
+val day8_input = """
+    gbdfcae ebcg cfg gc facegb fecab acfge cbfgda fedag caebfd | ecbg bfcagd faegc gcf
+    eacgf efcab fgc fedagc gdeaf cged aebfgd adcgfbe gc bdgcaf | fgbacd cfega ecdg cg
+    dfgae gcadef efb eb dcabf bgde edfba bcfaeg egcdfab fbgade | bged eafdb eb gfdea
+    aefdb cafdgeb egdfac egdcba fcbd efd eadcb caefbd df aegbf | cfadeg abfedgc fde bfcd
+    dc deafg ecd dbaefc adcfeg cfged ecbfg acdg cafdegb gfeadb | dcga edc adfebcg ecgfb
+    befdc bcfge befad degfab cde aecbfd gcedaf eafcgdb dc bcad | bdeafc cde ebdcafg daebgcf
+    cd egdacfb fdc fecgb gabdf fbcdg fcgdeb gdcfea debc ecfbga | gfecb fbgecd bcgef dc
+    fagcdbe gec gbdea ce bgedc aecd cgbeaf cfbdg gebcda dbfgae | cfbaged cgbeaf ceg gadfbe
+    gcbaf gfdb bdafc df adf adcbefg dcfeag cebad adfgcb faecgb | afd agfedc dcbfa gdfabc
+    fbae cef fecdbg afbcg cefbga fe acdfgb gadce fbdacge fcage | fe abef gfbac cef
+    cfdebg bg beg cabfeg fbgd acged ecgbd fdcbe cfbeda cebgadf | fbedc gadce gdaec bcfed
+    gba ab fgbcd gedaf bcadge afbdgc cdgfbe agdfcbe bcfa bdfga | gab gdbfc ba fgdbcae
+    fabdgce bfdgac cbaed dcb bgade fbaec fcde edbfac gfabec cd | dc cefd dc cd
+    afc dbecafg fagce fbega fbgc edgca agecbf bafged eacdfb cf | cf bfdcaeg gfbc gfbc
+    gedcb ebda cgbdfa fcaeg gab bfgdce ba agbce bdgecfa dgebca | bdgfce cebagd cbdgfae dcfbeg
+    egbacf acdfe gfecb egdfcb dfgaceb dfb dgcb fdbce db bdeafg | fdb db db bdf
+    cfeg eabcf gdefcab bef geabc bfcad egbadf cfgbae egcdba fe | fgec gaecfdb cagbef ef
+    bafde dbgeac feacgbd cbaef bed bfgaed gafecd bgdf bd eafgd | db cfgdae caegdfb fabed
+    afg bacg cdbgf gcdfab fdcae gafdeb dbgfce ga dcafg cedabfg | gaf bdafgc agbc ga
+    edgca bafdcg acbdg cbdeag dce fgcea gdcfeb aebd ed gfdabce | ebgcad daeb edcga ced
+    agecf abfegc dbefcga ad dafc fegdb adg afgde bdcega ecagdf | fadeg dfac dga da
+    ceagdb gedac acfdbg cda bgecafd adgeb dcefg ca beac abgfde | aegbd baegd bdcagf abcdeg
+    egaf bagdce dcgabf ea eab cgbfa cdfebga fbcae dfcbe fgbace | gdfaceb gfea dbcfe eba
+    cfbega bge eg cgdebaf gedbc adeg bceadg bfadcg agbcd cdefb | ge ge cfedb fbgadec
+    afc ca cabe gbefcd aebcgdf acedf gbafdc eagfd edcfab dfbce | gbfdcea fca aecbfd ceba
+    af bcdag agbfde fdbca ebdfc adf dbefcga abedfc aefc dbgcfe | af acfe adf adcfbe
+    badfe agebd gfaced gbdcafe aecfd fab dbfc geacbf adbcfe bf | fb ebagfc beadf dface
+    bfeda gabefd agbedc ec fcadeb dfbaecg cea fdec afceb agfcb | fbcae cfde eac fedc
+    ebcf eafgcb egdfba dfcag bacge faceg afe gdceab ef dgcbaef | fcbe febc bcaeg cbfe
+    dafbc afdebg egfc ce eagbcd ceafgbd fgeba cbefa eac fcgeba | afegb cdagbe cbdaf gfaeb
+    ecd dface cdgafe gcabfd edbgcfa gdacf fecg cdbaeg ec efbad | edbaf gcafd dcgbaf dafgceb
+    gd fagbec bdfg gde cfgbe cefdbg gbdeacf agdcef bdceg bcdea | dg gcfeba dg ebdcg
+    bg bgdeac abdg cgb fcbade gdbceaf fbdgce dbeca gaebc aegfc | cgb befgdc fedgcb gbc
+    gac cgeda egcbafd gfdbce fadec ag degbca agecbf dagb gebcd | cdegb degcbaf cedaf edafc
+    ecfab bfacdg bdga gb cfgba bfg gefdacb cegdfb fagdc cafedg | bfg cefba gb aedbcgf
+    dgfce aeg cfbdgae acfgeb ebcafd ag gafed gaebfd bdga dbfea | gae cfbdae abedfg bgfdae
+    cgbad cbaf fbgeda dfgcab fdcebg dbfcg decag cdagbfe bga ab | dfcabg cbfa fcedgab adfcbeg
+    cegbadf edfgba cafeg dc agdebc dbgfe cdbefg dec dbcf edfcg | bdfc facdegb adfegb egbfd
+    bedf cefadg ced ed bcegd gefabc agcdbfe cdgab gcfbe fgcdbe | ed cde bdgec dbecfg
+    egfcab debfa ecd bfgec cdgb cd bdcef dgebcf ecdabgf egcadf | becfd cbgd gcdb fcbed
+    bc dbfge gbecf caefdg gefabc abgdcf bfc baec efcag cebgafd | baec fegbc agfec cgbef
+    bacegfd fbdgca egbcf fabce bdaefc dcaef dagefc ba dbae cab | daeb cbefa cab ab
+    fgab cgdfae fcgebd gb bcg dbaegcf cabed gadcb gcafd gbfadc | gbc adcgf dgecbf cgb
+    gdaeb df cgaebdf dfbe cbdagf eabdcg gfd aecgf aefdgb agedf | dfg gfcea febd ebdag
+    ecbaf cagfdb aecgf gac ebga defagcb baedfc gfcde ag gfbeca | cadbfg gaecbf agbfec fecba
+    edbgaf fbd egdbfca dagf gabde bdfge fd bgcfe efbcda eacdbg | fbd ebcdaf dbgaefc gefbda
+    acdbg aefcdg cdg cegb acebfd abgdf cg fbegadc gcbdae eabdc | gc edafbcg gadbc cg
+    fgcd bgdafe bacge dg facgde acfde agdec gdefbca deg aebcfd | gd eagdc ged ged
+    egfa efdcba dfbgc cbfea ga abcfg edgcab bga fecgdab aebfcg | bga faegcbd bfeadc badcge
+    bfeda ceagdb bf ebfacd edacb acefbdg begcdf bafc agfde feb | fb fb fbac bcegad
+    bfdcea dcbgaf cbega dbage cea ce cbafg gefc bgacfed bfecag | abgfc ec cegf acdefb
+    adgfce cdag cd fgecab cfgae ced fdbae gebdfc agbcefd ecafd | dfcae dc fdcae ebafcg
+    dbeag begfad bfdegac dcb cb gcfda ecdgfb ceab gcabd dcebag | cbd cb cegbda bgcdef
+    cdfaeb fgebad ea dcbgfa gcaebdf cegbd bdcae fabcd cfae eba | caef bafdce afec gfdbea
+    bcfega gcbea bdfgeca gabcd bd gdcabe dafcg ecdb dba ebfadg | fceadbg fbaceg db bd
+    gadcbe dgb debcaf fabgcd bcgfe bdgcf acfedbg gd cafdb gdaf | eafdcb bcfade badceg bdacfg
+    gafce cabde cdf aefbdgc efacgd fgeacb ceafd df efgd badfgc | edfg acbegf dfc gedf
+    afgce gbdecf bae adebcgf bgedca abecg abcd baefgd ba gbdec | ab dfagcbe gbeca ab
+    de dcgaf gcfbed gdebfca acegb cde bcgafe abed gdacbe gecda | ed afgcedb deagc gcdaf
+    gcdef ebfadc da dabefg daf fbaeg gaefcb dfeag gbdfcea bgad | gadfbe bafgce dgba afd
+    bdfeg gecf fc egdfcb gcbedaf bfc dfcbe cbdfga baced abedfg | fcge fgdecb dcgfabe fgdeb
+    bdf acbdfg bdaefg aefgbc abcde dagebfc fd dfcg cabdf cgfab | bfadc cabfg gfcdab fbaegc
+    af cdfbega edbfac dfbgc fac adef adecb becagd acdfb efcbga | bcagfde bdfcae gfdecab eacbd
+    egfcad bdgeac fdac fed cdage fd gcbfed baegf gfedcab gedfa | adceg fd afebg egdca
+    fegba ecbafgd cfegba cgdab efbgad ec fadcge ecg bcef cegba | bgadc ce fecgdba baceg
+    bdfaeg abgedc efadg bafd gfeba fcdebga adg aecgbf da ecfdg | ad ad dfba befcgad
+    efadcg dacfb cfgab bfde eafdc decfbag decbfa bd bcd acebgd | debf cafde gcdafe fcgebad
+    agd cgadef gcdebfa gd facge bdfgea eagbfc dcgaf cafdb ecdg | cbgfae ebfcga agcef bfdeag
+    dfbge abefgd aefbcg dcfegb ba fgbad gedafbc bdea fba dcafg | agfdb fab fba fcbgde
+    fcdab agbecd eacgfb gc fgeabd gdabc dgbea cbfdeag cag dceg | fcadb fbcad degba gca
+    eag cbefg dfeagbc cdfbga egcba dcegba dace agedbf ae gadbc | cegba age agbdc dbcafg
+    cdbag gfb dgceba cbfa gfdbac faebcgd deafg dgbaf fbegcd bf | eagdf febgcd fbdag gdfbce
+    cdbgf afcebg acfdbe ed ced bdefagc dcgbea fbeac cbdfe adef | cfbde de dec ecd
+    dfc fbcde dfcbga ecbgd egbdca fd eabfc edbfgc efdg cdfegab | df dgef fgbaedc df
+    fcg egcbd gacefb dfgbc abfcgde bfdga cfed cf gdebac gbecdf | bfdcg fgc fbcdg agdbf
+    fcabg acfbedg bfcgde ecbad agef ecfgba ecf fe dafbgc baecf | aegfbc cfe dbace fec
+    edbagc cefbda bfdeg af agcf gfebdca fgdcab dgcba baf fabdg | bcadef dfgcab abdcfe gedfb
+    acegf efbgcd dgbefac cgd bedga cbad agcedb dc egadc feagdb | badcgef cd dcgbfae cd
+    bfc cdafeb bcega gdcf afgdbe egbfd caebfdg gcefb cf debcgf | gcebf bgedf dfbgea fc
+    dgfaceb gcdf dabcg fd dfgba aefcbd bdacge gfabe afd dcagbf | daecgfb gbecda dacbfe gdcba
+    fbgedc bfcda cfg dafbge fecdbag cagfd aecg agfde cg adgcfe | ecdfagb gfceda gaebdf gbfdea
+    afbe gfa gfdcb af febcadg faegcb bcgea aedcbg eagfcd afgcb | bagcf gfdeca abfe af
+    caefg efd fd abedc fcgd egdcaf egafbd gfcbea dafec abgedcf | gaebcf fcedga def egcafbd
+    dcfab gefdcb bda da baefc baedcfg gfda dbceag cbfagd fbgdc | cdebga efdgbc fbcgead beafc
+    bgfed fdaegcb bedagc da bdacfg gda eacfgb cadf dafgb cabgf | dgceab da dfbeg bcegad
+    cedab fc adbfec faegcb adbgf cfa ecdf ebagcfd dcbfa ecgabd | becdaf cefd abdfc efcd
+    cdgbea aeg agdec dafgbc gbed aegbcf ge aecfbgd cagbd cafde | ceafd bagcd gacdb cgbad
+    dgfeb bedag cgdefa df gfdaeb cbdega gfdceba gbfec dafb gfd | fabecdg bdfa bdaf dfba
+    gdfe acdbf ed bdegcf cegbfa cebfd deb badegfc fbcge bgaced | ebd efgcabd bfcda dfeg
+    abfcedg gec fcgdbe gaebc gebfac efbdca gfea acbfe gbdca ge | agfe cge cdbgfe bcfdea
+    fgbaed dacegb dacef egafd aecbgf adfcebg bdfg ged agfbe gd | agdfceb gd dg fbgd
+    egdb acgbef edfac bd fgecb gbadfec bcafgd bcd bedcf gdecbf | bdc bedg gdbe efbgc
+    cagbef acgbf fgcabde cgd gbda dg dbfgec ecafd dgfca dagbcf | agbcfe dcgfa dbagcf cgdafeb
+    cb efbgc cgfae cgb gceafd beca fbcgae gefdb cbgadf dcfabeg | bgeacf bacedfg cbdgfa dfgbe
+    cgbedf facgdb agfdc cga cafed gfcbd gcdbeaf degacb fbag ag | gbaf acfed gafcd cgfda
+    egbdfca cadf bdafgc cbgfea cbgde bdcfg gfc cf fdbag gebdfa | eacdgfb fcda dfac adefcgb
+    fdgea abcd ac cfabge cdbfeg gdebac acg gcdebaf gadce bcedg | gac abefgc ac gcaed
+    eafdc eafbc agbe begcadf ba gcefba fgcbda gdbfce cba ecbgf | ba ab abeg adcgbf
+    afg ga bdafe eadfg dagc gefcab edbcgf ceagfd ecgdf aedcbfg | agdc daefb debcafg fdaeb
+    baf cbdgf afbecd gdcabfe dcfabg fadeg gbac gbadf ab cedgbf | fcdeba cbga afbdg bgca
+    ebdfgca ebfdag gb bgf fdeagc gdbe cdfgba egfab abcef agdfe | gb gfbdea gdeb eafbg
+    agbcdf fe gebad fea becf ecfbga cgabf aegfb fedgca acgbedf | ebgda ebdgacf fcbe aef
+    gdbef bgfadec gfeab eab gdcfbe ab bfadeg fdab dcaebg acgfe | fgadbe fbedgc dgefb aeb
+    adcbf fbdg bcf dcbag fecad cgafbd fb acdefgb bgefac dgcabe | dfcab cfb bf cdeaf
+    dfgbca cdebagf cfe fcbga aefdg geafc bdecgf ce bgefac aceb | bace aebc gfbac efc
+    adfegcb gcbaf fa adgcb acf efgacb fgcbed eadfbc agef fbgce | aefg acf gafe cfa
+    fdegbc fcbad ec ebgaf gecfdba feacb caefgb degfba ecb geac | ecb ecb cfadb ebafc
+    fegabc ebcgafd gfacde ge fcgeb ceg bagcf dcfbe ebga bdcfga | cefabdg fdceb abgcf gfeadc
+    fdabcg bgafc fcbeag edbfg gadfceb ad adb dfca dcbgae dfabg | bdegf faedbcg da caegfbd
+    cgfae gdbeca decaf fd dfbc fad dabegf daebc bedafgc efbcda | decfa fgcbdae fcbead dbegcaf
+    dbeaf cb fabecdg bcfda gabfdc cbfg agdfce abc edgcba cgadf | bcdefag bcgf dafbc badcgf
+    gbdcfa becfdg fdbcgea fgc cg fecdg efdgb ecadf gceb gadefb | gcbe fgcebda daecgbf aebcfgd
+    cdega dgcaeb cbgea egdcaf gfacedb begfda cebfg cbda bag ba | ab egdac beafdcg faegcdb
+    gab cgfab cfage fbaedc bcdg gb gacfbd defcagb gdebaf fadbc | bg fbacde gfabc dceagbf
+    ge ebg cgdfb cedba bedgc ecag deagcb bfceda gdcfeab egdbfa | bge beg bafged cadbeg
+    eabd ebacf ecd fdcbg dbafegc ed ceagdf fgceab ecfbda cdbef | dec dfcabe dec befca
+    afbgdec cedb dc agdbf cegbf bfcedg cdg bdgfc baecgf ecfdag | cd dgefbc fdgcb cd
+    gebdaf dgfae afe gafcbed agcfd febd edabg gbfeca bcdega fe | ebdag fedb egafd aegcbf
+    gebdcf abefdcg deg bgdfc fcde gbfea gedabc edbgf ed bgfcda | efdbg fedacbg gbfacd fbdeg
+    bcgd edagc gaebd bcdaeg fabedc bgefa fcadge agbfcde db adb | cgbdfae bdagcef badegc dab
+    df fdb bfadceg bgeadf afbdce efdg dgbae dafbg cafbg abdgec | gdfe afcgb ebcgafd fbgacde
+    gabce gdfaeb bcad cebdgfa fgcbae efgcd dga da cgdea cdeabg | ad agd gda gfedc
+    fcabge edbfg fcaebd ea dcbagef gace gafcdb bafcg eaf fgbea | dcfbage aceg afbdceg ebcafd
+    bafe egfcda be bfgaec gbe egcfbad fcaeg bdcaeg bgecf cfbdg | fabgced bfea gbcef gcfeb
+    badfeg fgecb af cgaebd acfdbge gaf afcged gfaeb dfab egbad | fa fga abfd gabde
+    afceg bcdfge fcaebg baegdcf cfg eabcdg bgfa efcad gcabe fg | abfg gf fbgecd acebgd
+    acbedgf fb efgdc bgf gbcfd bgfdac dagcb fdbeag ebcdga fcab | bf gdebaf fb bf
+    aecf cgbdefa bacged efbcga fdgcab febag af agf dgfeb ecabg | bcgdaf af cadfbge efca
+    egfda fgceab acd bfcadeg dc dcega bfdcea gcdb cdbega eacbg | gabecd cd befgcad gdcb
+    gecda dfegacb cgfae cdbfag fcbeag afg gf fbge dafecb caebf | dfaebc cfeab gf agdfbc
+    gdafe cdgaeb egfdba da bfdgec gbfed eagcf egdbafc fbad dag | agfde dga dcgbfe abcdfeg
+    acgdb gadfce cbefdga becad bcegdf bacgdf afbg ga dag dbcgf | abdgc gdeacf acdfbg ecdab
+    gdfa eadbc gcafe dgc dg fcagde bcgfea decgfb egcda fbecagd | cegda cgdea gd dg
+    ga egdbcfa aegcb cag egbcd gadceb gbcefd decafg badg cabfe | bagd cagfed gacdfeb cbegd
+    cb deafc bcgd agfceb dbfega ecb deacb aebgd cbafdge ebdacg | dcgb adceb edgba ceb
+    edgfab acgb becfdag bgf cgbdf cgfad dacbfg bg ecdbf afegdc | gfb bg gcfade gfbdeac
+    caebg cgaf acgdfbe begcaf cf fdgeb agedcb ebgfc cfe fbcdea | dbfeagc cfe fbeagdc cf
+    ageb bg adcbfge fcgea cbgaef cbdfa gfb fedacg bfgca fdcgeb | fbg afdcb ecgbdfa cgfdbe
+    dgbfe aeg ea dcea dbeagfc fbacgd ecbdag gadbc bcafge adgbe | aedc ae gbdef daec
+    dbafcg dbgaefc adfc egdab fdg df agefbc bdgcfe fbacg gdfba | bedgacf gcbaef cdfgab cafd
+    eg fdgcabe gcadbe aebdc gced bagfde gea gbeac afbcg ecdbaf | agfbc fgdabe fcdgaeb feabcd
+    fedb gfe defabgc caedg cgadbf feagd bdagfe fgbda efagbc ef | fe fgcbea ef dbfe
+    bc agcb dfceg bafgdc gfabd fbdcg bcd ecgfbda ebadgf fbaedc | cbd fabcgd cgbfd bc
+    ebfgc dbeg ed gefdc cde gfbecd fgdca caedfb gdbafec gefcab | fgdecb dgfce fbecg cabgfe
+    ab ebda bfagdc becgd aecfg bag daecgb ebcag gbacdfe cfgbde | abedgc eafgc ebacg ab
+    ecdbag dagbfe badef fcaed adc cd efbagdc cafge cfaebd dfbc | dcfb dca acd gcdabe
+    cedbgaf ecbfg dagfec dgbea bdca gfdaeb ecgbd dbecga cd edc | ecbdga cde edbag dc
+    egbfcd gbcafe ed defga dbgfa bcgdeaf cdea def eacdgf gacfe | bgfad ecda gbfad gcdefb
+    dafge cea fdace agdc dbgfea ebdfgca dcbfe acedfg abecfg ca | defac gcad ac ca
+    ecdba fbac eabcdf beadgfc acd efacgd ac agedbf bfdea ecgbd | aecbd agbefd bdgec dgebc
+    bfegda bdage gdf gfdae bdfgace fgeb afdec fgdacb gf deagcb | fbaegcd fegb aedgb dfg
+    cdaf fd bcdfge agebf dcgfae gfead baedcg gdcea egdbacf dgf | efgab df eagfd afgbe
+    egfca egcb ceafdb fbc fbcaeg dgbfa cdfeagb fgcba agdcef cb | cb gcdfae eabgfc fgbca
+    gdbca fdecba gdecfb feagbd ceb adfbgec bdgec ec efgdb cfge | ec ecbgd dacefb abfged
+    edbcag cabd ecfdgb aegfd eagfcbd ac cga feagcb ebdgc dgeca | acfbdeg dfgea cga dgeca
+    ebgacf adcf bcgedfa gdcabe abedf aef edabc fa befgd bfdaec | aefdb af cebad fae
+    dageb de gde dgfbce cgdba gabefd afbge cgdebfa aefd ceafbg | efgbda agbdecf bfaegcd edg
+    ce dec becf efdgb edfgcb ecbdag gdaefb beafgdc dagfc fecgd | ce fdbage gcdfeba gbcadef
+    ecgfa ebadcf ed gcdfab cdefa gfdaeb dbec dbfgace cdbfa dfe | dceb cdfab ed ceagf
+    cadg efgcdb gbcfad feabc agfcb afcdgbe dgbfa gcb fagbde gc | gdecbf adfgbc fbcgade gafbc
+    gdcefa gefdb bcfeg eabc fagdbc ecagf bcf afcebg cb bfgaedc | fcgdba agbecf fcgeba fgdceab
+    afgbc be cbeaf gfeb ebcdfag cfdbag cdfae cfegba cbeagd abe | gdecbaf cagfb bfgaec cabfdge
+    eb egdb dcagb abe gcdabe agbce dgabcf fedbca fdcebag gfeca | gdbe agdcb gfcae cgadbf
+    dbagc bcaedfg gade cadeb efgabc cabedg gca fgdbc ecafdb ag | dage cagdb dgcaeb cdgab
+    gbecd eacdg cgb egacdbf gfdbec efbg bfced bg bdfcea bafgdc | acbfde bg gb gb
+    fgbadc fbdag dbecg fbae dacgef ega ae afcbged ebgfad bgaed | ae bacfgd bfea agdbef
+    dacfeg gecfd ad gadbfe gadbfec gda acde fcedgb acbfg fdcag | gefcd cdegf agd ad
+    caegbd cfdeba edbac cfbegad fe fbea fdagc cef acdef bedgcf | ef cdafgeb fce edfca
+    dgcae cedbfag facbdg fdc eacdbf bfegda dfcae fdbae cf cfeb | cf febgcda dfc cdf
+    edfag dbeacg dbecafg agc gcefa gc bcfea cdfg fbdgae gefadc | dfacge fagbecd feacbdg bfaged
+    abefdg fgdec ecadf efcdab ac dbeaf acdb acf cdegfab gecbfa | fca fdbega decaf cgafdeb
+    bceafd fegcad edcagbf dbcage decba bafd df fcd bcfge cbfed | ebgfc eacbdf gadebc df
+    egba cgdafbe begfc gacdfb dceaf cefbdg gfa ag gcebaf aecfg | acbgfd gabe fbgeac agfec
+    cdgeb fdecag agdbefc gefbac cdaf ade fegdab cgead ad caefg | ecbgdaf dgceb cfgae dea
+    cafbde fbgac edcg agdfeb eg dacgef fgcea aefdc dceagfb eag | afgec fbcga ceafgd bgceadf
+    cefbg ceabd gd edbacgf aedfbc gaedcb cdbeg abfdcg gdc gead | cgd dgea gd cebad
+    fadbg dagecf fea fbecga adce ae bedfcg egacbdf fdgec fdage | dcae caed dbefcg adgfb
+    acged aec efgdcb ac fagc abdge abfdegc fdeacg cfaedb gedfc | egbcafd gaefcdb cae cagdfe
+    fcbdage bafgec cab fcbae ac abdegf dbfec fbgae eagc cbfadg | acb dafegb acb bfeagdc
+    af egfda gebdf gebdfa aefcdbg fbecda fgba daf cdeag dgbcfe | eagdc cefbgda daf daf
+    dgebcf gcf agcbd fbecd fbcdg ebacgf aebfcd fdeg fegdabc fg | dacgb dfge fcdbe gedf
+    bfacdg gafcb gefbd cd dgcfb dagc bdfagec bceadf fagceb bdc | begfd gbdfe afgcdbe fbeacgd
+    bagf afe bdcaeg fdcbe af dafbe cbedgaf gfebad gdaeb aefcdg | baedcgf fa af cgadbef
+    acdgf becgfa acd cagbf agcdbe fdba da bdcfag gfdec dcgafeb | bagfc da dca fdbacg
+    cdabfe adbfc ecbaf cdae cdbfge dabgfc bfgae bec ce gadcbef | faecbd beadcfg dcae cgfedab
+    bceag agd aced gdbafce bcfgae agdeb ad fabdcg fdbge egcbad | gaceb agd bdagec da
+    cag dfgbeac ecdbgf ag gfabc ebag fabgec deafgc adcfb fcegb | dgaecf aebg bgea dcbfa
+    afdb degbc agedcf da aed beacfg dgfecba efcab bdface cbdea | fbeca aecbd gdecaf ade
+    cafebg afedcb gfeabcd fgcb cfa afdeg fc ecgab dacebg cfeag | bcgf bgcae gdfea bgcf
+    feg gfcaed cfabdge gf degafb fdegc edfcab edgbc agcf cfade | gf gf gacf egf
+    ceadf ecdgf eacbd cebagd dcabfge eaf fdceab fbad fgebca af | cefadb cefad bfad abedc
+    gefabd cabdfeg dgceab dagef bdfacg egfdc edgab af feba fda | geadcb dagfceb fda af
+    dfcea adgce dfebc gecfdba fadgbe dcefga cfga aebcdg efa fa | fa fae af gaedbf
+    agbfd acbgedf faecb cegbad dgabfe gbc fcdg cfagb gc afdbgc | cg cg dfgbae cdfg
+    efg bfacg feab efcagd fe bcagedf edgbc ebgcf afbegc bcfgda | dgecfa ef fgcba efba
+    aebfdc bcfage dgbacf gface gbaecfd dfgce geab acfbg ea eac | cabfg ea cfagb eagb
+    gba gdcea cdbfg acgdb gbecadf bfgecd dgcfab abfc ba fdeagb | ab febagdc dfgbac fdagcb
+    dfcb gcebd dfgaec efdgc eagcb dfaebg afedcbg gbd gbcfde bd | gadebfc db febdga bgd
+    eabd adcbg ceafg ecb be eacdbg acegb gbfcde adgcbf ecfdgba | cgfebad cbe ebacg dfgceb
+    cefbgd cgdfa bagfced dabe fgceab abfeg gdbaef gbfad db gdb | aefdgb bd abdfegc fgabed
+""".trimIndent()
 val day7_test = "16,1,2,0,4,2,7,1,2,14"
 val day7_input = "1101,1,29,67,1102,0,1,65,1008,65,35,66,1005,66,28,1,67,65,20,4,0,1001,65,1,65,1106,0,8,99,35,67,101,99,105,32,110,39,101,115,116,32,112,97,115,32,117,110,101,32,105,110,116,99,111,100,101,32,112,114,111,103,114,97,109,10,616,0,1633,1048,833,967,161,22,823,601,603,538,340,798,1053,400,54,41,54,296,1336,1013,9,763,650,313,15,177,1289,307,741,314,289,63,183,503,764,187,225,596,273,387,1,1165,61,19,78,514,355,605,103,483,291,1781,1137,398,593,38,444,204,274,528,147,131,1021,812,430,710,257,1408,1587,517,773,218,99,357,301,543,1668,11,311,350,373,145,507,325,1006,696,607,281,433,302,148,519,846,1528,766,158,51,850,216,1320,690,338,298,631,560,306,5,888,242,1230,1694,1330,570,184,946,97,96,272,537,312,1246,847,138,325,28,253,785,483,906,412,28,178,485,828,823,1035,1001,108,1068,90,308,223,18,191,1269,39,238,307,7,643,1546,203,254,371,402,207,666,786,793,361,441,105,15,421,1748,255,152,1376,626,296,707,4,627,885,49,316,34,379,1591,39,1087,135,1515,69,725,419,924,414,78,1169,8,1331,2,771,1295,570,323,9,406,75,42,1003,180,188,174,145,128,625,1312,85,427,56,15,87,449,831,906,34,186,609,1597,531,104,1034,615,608,1338,192,280,982,334,853,1155,194,124,205,1384,135,906,239,761,1357,16,328,623,3,1432,634,1698,31,981,347,75,222,896,77,1204,1272,711,106,772,1366,279,162,98,487,1281,188,71,307,398,470,40,12,459,449,984,1271,260,1132,493,1117,129,36,1040,947,570,89,853,373,102,771,107,266,106,59,485,61,87,353,164,278,1489,542,442,4,62,788,63,130,723,919,1169,327,459,431,1107,992,1162,1287,901,838,638,261,307,761,533,119,336,4,422,173,172,64,222,531,998,1250,1007,20,1231,69,289,531,757,185,519,184,1139,369,2,1102,857,339,1267,1357,217,774,1352,23,136,2,1389,253,87,883,28,247,292,15,332,69,170,20,544,75,850,310,1137,301,155,265,100,842,189,7,584,40,168,22,548,7,30,1027,744,1294,329,100,1255,424,515,460,163,375,26,618,275,1012,935,160,181,84,186,990,1208,152,753,508,590,578,81,625,600,430,306,311,156,5,56,187,25,249,1090,316,224,173,199,71,221,1219,335,87,260,607,121,25,1326,473,224,92,87,734,179,64,325,320,117,302,1247,879,716,984,284,239,738,30,90,61,844,997,823,387,956,842,580,540,648,1947,32,63,380,873,1086,142,512,206,742,584,157,858,1300,992,311,139,906,693,1,36,1320,236,48,58,32,147,34,229,497,1,657,616,309,494,1419,264,595,729,1374,984,74,446,436,77,1516,156,915,565,159,269,263,442,775,12,6,337,115,971,598,87,1283,533,991,204,1382,1204,277,27,801,260,198,426,89,72,458,1164,571,1329,501,1547,125,376,865,642,268,626,167,429,901,623,103,100,1064,125,450,695,28,1470,469,187,119,1363,44,485,1243,1163,507,139,147,72,100,160,624,506,1360,66,444,581,729,531,701,1091,178,476,22,926,354,88,1076,946,213,38,43,125,291,714,113,54,1214,1067,641,374,411,64,1364,415,133,752,372,212,19,1941,780,902,512,852,157,8,175,90,913,125,771,764,381,947,572,391,313,249,201,106,1500,487,107,868,464,984,1471,550,642,196,571,18,306,293,659,1274,290,352,0,528,754,564,316,685,57,293,75,584,251,1107,217,11,21,329,493,175,600,259,380,30,148,556,136,180,12,26,507,199,3,0,143,87,1452,359,989,170,64,269,17,1018,105,317,289,127,275,269,359,511,690,205,423,356,19,177,260,789,51,119,210,1151,707,869,194,773,159,216,759,16,161,47,1254,293,54,504,432,1230,213,26,253,424,98,1515,162,346,326,12,122,79,210,912,55,705,597,369,1381,284,1163,316,34,384,36,1254,1455,994,60,1395,476,100,38,726,198,605,103,489,361,9,24,158,1056,264,1103,175,1423,266,45,93,271,331,673,788,48,12,580,697,593,480,268,559,302,87,281,6,401,170,90,939,543,223,137,809,139,182,571,68,1112,20,1004,1090,249,1435,267,10,375,504,906,946,1503,1362,184,233,112,1058,16,235,548,563,162,102,746,439,105,259,27,19,817,1444,119,175,341,130,202,31,432,480,710,1127,682,454,134,823,168,276,113,914,1112,118,10,1041,902,141,1428,282,485,353,589,906,987,488,144,154,25,930,368,261,176,168,85,814,1915,248,49,1012,3,143,951,30,411,336,46,1383,26,857,1650,192,1477,194,73,154,91,287,229,144,675,989,135,360,74,60,223,219,625,182,793"
 
