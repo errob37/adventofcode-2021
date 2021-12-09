@@ -15,5 +15,5 @@ fun day7(): Long {
         if(fuel < min) min = fuel
     }
 
-    return min;
+    return min
 }
