@@ -16,20 +16,29 @@ val m1 = mapOf(
     '>' to '<',
 )
 
+val m2 = mapOf(
+    '(' to 1L,
+    '[' to 2L,
+    '{' to 3L,
+    '<' to 4L,
+)
+
 val startingChunkCharacters =  listOf('(', '[', '{', '<')
 val terminatingChunkCharacters = listOf(')', ']', '}', '>')
 
-fun day10PartOne(): Long{
+val autcompleteScores = mutableListOf<Long>()
+
+fun day10PartOne(): Pair<Long, Long>{
     val lines = day10Input.split("\n")
 
     lines.forEach {
         val stack = Stack<Char>()
-        var found = false
+        var malformed = false
         it.forEach { c->
             if(c in startingChunkCharacters) stack.push(c)
             if(c in terminatingChunkCharacters){
                 if(stack.isEmpty() || stack.peek() != m1[c]) {
-                    if (!found){
+                    if (!malformed){
                         val point = when(c){
                             ')' -> 3
                             ']' -> 57
@@ -38,12 +47,26 @@ fun day10PartOne(): Long{
                         }
 
                         m[c] = m[c]!! + point
-                        found = true
+                        malformed = true
                     }
                 } else stack.pop()
             }
         }
+
+        if(!malformed) {
+            var score = 0L;
+
+            while(stack.isNotEmpty()) {
+                val c = stack.pop()
+                score = (score * 5L) + m2[c]!!
+            }
+
+            autcompleteScores.add(score)
+        }
+
+
     }
 
-    return m.values.sum()
+    autcompleteScores.sort()
+    return Pair(m.values.sum(), autcompleteScores[(autcompleteScores.size /2)])
 }
